@@ -1,0 +1,27 @@
+package com.lc.blog.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * 标签
+ * @author LC-Lucus
+ * @date 2021/12/24
+ */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class TagDTO {
+    /**
+     * id
+     */
+    private Integer id;
+
+    /**
+     * 标签名
+     */
+    private String tagName;
+}
