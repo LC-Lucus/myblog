@@ -63,7 +63,7 @@ myblog
 
 **前端：** vue + vuex + vue-router + axios + vuetify + element + echarts
 
-**后端：** SpringBoot + nginx + docker + SpringSecurity + Swagger2 + MyBatisPlus + Mysql + Redis + elasticsearch + RabbitMQ + MaxWell + Websocket
+**后端：** SpringBoot + Nginx + Docker + SpringSecurity + Swagger2 + MyBatisPlus + Mysql + Redis + elasticsearch + RabbitMQ + MaxWell + Websocket
 
 **其他：** 接入QQ，微博第三方登录，websocket
 
