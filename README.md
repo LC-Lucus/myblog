@@ -26,6 +26,24 @@
 
 ## 博客结构
 
+| 模块       | 功能                                                         |
+| ---------- | ------------------------------------------------------------ |
+| annotation | 自定义注解                                                   |
+| aspect     | aop模块                                                      |
+| config     | 配置模块                                                     |
+| constant   | 常量模块                                                     |
+| consumer   | MQ消费者模块                                                 |
+| controller | 控制器模块                                                   |
+| dao        | 框架核心模块                                                 |
+| dto        | dto模块                                                      |
+| enums      | 枚举模块                                                     |
+| exception  | 自定义异常模块                                               |
+| handler    | 处理器模块（扩展Security过滤器，自定义Security提示信息等）   |
+| service    | 服务模块                                                     |
+| strategy   | 策略模块（用于扩展第三方登录，搜索模式，上传文件模式等策略） |
+| util       | 工具类模块                                                   |
+| vo         | vo模块                                                       |
+
 **前端项目**位于myblog-vue下，blog为前台，admin为后台。
 
 **后端项目**位于myblog下。
@@ -40,30 +58,11 @@ SQL文件位于根目录下的**blog.sql**，需要**MYSQL8.0**以上版本。
 
 **注意：** 请先运行后端项目，再启动前端项目，前端项目配置由后端动态加载。
 
-```
-myblog
-├── annotation    --  自定义注解
-├── aspect        --  aop模块
-├── config        --  配置模块
-├── constant      --  常量模块
-├── consumer      --  MQ消费者模块
-├── controller    --  控制器模块
-├── dao           --  框架核心模块
-├── dto           --  dto模块
-├── enums         --  枚举模块
-├── exception     --  自定义异常模块
-├── handler       --  处理器模块（扩展Security过滤器，自定义Security提示信息等）
-├── service       --  服务模块
-├── strategy      --  策略模块（用于扩展第三方登录，搜索模式，上传文件模式等策略）
-├── util          --  工具类模块
-└── vo            --  vo模块
-```
-
 ## 博客技术栈
 
 **前端：** vue + vuex + vue-router + axios + vuetify + element + echarts
 
-**后端：** SpringBoot + Nginx + Docker + SpringSecurity + Swagger2 + MyBatisPlus + Mysql + Redis + elasticsearch + RabbitMQ + MaxWell + Websocket
+**后端：** SpringBoot + Nginx + Docker + SpringSecurity + Swagger2 + MyBatisPlus + Mysql + Redis + elasticsearch + RabbitMQ + Websocket
 
 **其他：** 接入QQ，微博第三方登录，websocket
 
@@ -116,11 +115,11 @@ myblog
 
 ## 博客运行截图
 
-![image-20220210161330521](博客介绍/image-20220210161330521.png)
+![image-20220210161330521](http://www.static.chaolc.top/introduction/image-20220210161330521.png)
 
-![image-20220210161445966](博客介绍/image-20220210161445966.png)
+![image-20220210161445966](http://www.static.chaolc.top/introduction/image-20220210161445966.png)
 
-![image-20220210161415455](博客介绍/image-20220210161415455.png)
+![image-20220210161415455](http://www.static.chaolc.top/introduction/image-20220210161415455.png)
 
 ## 博客部署
 
@@ -156,7 +155,7 @@ docker pull redis #下载Redis镜像
 
 官网地址 http://www.redis.cn/download.html
 
-![2](博客介绍/2.png)
+![2](http://www.static.chaolc.top/introduction/2.png)
 
   3.下完后把 redis.conf 放 data/redis/  里,进行解压
 
@@ -227,7 +226,7 @@ docker exec -it elasticsearch /bin/bash  //进入elasticsearch容器
 
 安装成功后使用postman创建索引
 
-![QQ截图20210812211857.png](博客介绍/14d857e8906621347816792dc695b4f5.png)
+![QQ截图20210812211857.png](http://www.static.chaolc.top/introduction/14d857e8906621347816792dc695b4f5.png)
 
 JSON参数
 
@@ -259,7 +258,7 @@ JSON参数
 
 查看索引结构
 
-![QQ截图20210402215812.png](博客介绍/1617371955872.png)
+![QQ截图20210402215812.png](http://www.static.chaolc.top/introduction/1617371955872.png)
 
 如图所示则创建成功
 
@@ -278,7 +277,7 @@ docker run --name maxwell --restart=always  -d  zendesk/maxwell bin/maxwell  --u
 
 打包成功后会在target目录下生成jar包
 
-![1](博客介绍/1.png)
+![1](http://www.static.chaolc.top/introduction/1.png)
 
 #### 2.编写Dockerfile文件
 
@@ -325,17 +324,17 @@ echo "$SERVER_NAME容器创建完成"
 
 **注意：sh文件需要用notepad++转为Unix格式**
 
-![image-20220209200823842](博客介绍/image-20220209200823842.png)
+![image-20220209200823842](http://www.static.chaolc.top/introduction/image-20220209200823842.png)
 
 #### 4.将文件传输到服务器
 
-![image-20220209200958800](博客介绍/image-20220209200958800.png)
+![image-20220209200958800](http://www.static.chaolc.top/introduction/image-20220209200958800.png)
 
 将上述三个文件传输到/usr/local/docker下（手动创建文件夹）
 
 将文件拖动至空白区域即可
 
-![image-20220210122308030](博客介绍/image-20220210122308030.png)
+![image-20220210122308030](http://www.static.chaolc.top/introduction/image-20220210122308030.png)
 
 #### 5.docker运行后端项目
 
@@ -350,15 +349,15 @@ sh ./blog-start.sh
 
 查看是否构建成功
 
-![image-20220210122026340](博客介绍/image-20220210122026340.png)
+![image-20220210122026340](http://www.static.chaolc.top/introduction/image-20220210122026340.png)
 
-![image-20220210122056674](博客介绍/image-20220210122056674.png)
+![image-20220210122056674](http://www.static.chaolc.top/introduction/image-20220210122056674.png)
 
 **注意：需要重新部署只需重新传jar包，执行sh脚本即可**
 
 查看是否部署成功
 
-![image-20220210135952255](博客介绍/image-20220210135952255.png)
+![image-20220210135952255](http://www.static.chaolc.top/introduction/image-20220210135952255.png)
 
 #### 6.打包前端项目
 
@@ -366,17 +365,17 @@ sh ./blog-start.sh
 
 成功后生成dist文件夹
 
-![3](博客介绍/3.png)
+![3](http://www.static.chaolc.top/introduction/3.png)
 
 将Vue打包项目传输到/usr/local/vue下，并且改名。
 
-![image-20220210151046359](博客介绍/image-20220210151046359.png)
+![image-20220210151046359](http://www.static.chaolc.top/introduction/image-20220210151046359.png)
 
 #### 7.nginx配置(有域名选这个)
 
 **域名解析**
 
-![4](博客介绍/4.png)
+![4](http://www.static.chaolc.top/introduction/4.png)
 
 在/usr/local/nginx下创建nginx.conf文件，格式如下
 
@@ -582,7 +581,7 @@ docker run --name nginx --restart=always -p 80:80 -p 81:81 -p 82:82 -p 83:83 -d 
 
 #### 9.运行测试
 
-![image-20220210160725341](博客介绍\image-20220210160725341.png)
+![image-20220210160725341](http://www.static.chaolc.top/introduction/image-20220210160725341.png)
 
 #### 10.其他设置
 
