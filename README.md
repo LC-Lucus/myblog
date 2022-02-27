@@ -116,11 +116,11 @@ SQL文件位于根目录下的**blog.sql**，需要**MYSQL8.0**以上版本。
 
 ## 博客运行截图
 
-![image-20220210161330521](博客介绍/image-20220210161330521.png)
+![image-20220210161330521](README/image-20220210161330521.png)
 
-![image-20220210161445966](博客介绍/image-20220210161445966.png)
+![image-20220210161445966](README/image-20220210161445966.png)
 
-![image-20220210161415455](博客介绍/image-20220210161415455.png)
+![image-20220210161415455](README/image-20220210161415455.png)
 
 ## 博客部署
 
@@ -156,7 +156,7 @@ docker pull redis #下载Redis镜像
 
 官网地址 http://www.redis.cn/download.html
 
-![2](博客介绍/2.png)
+![2](README/2.png)
 
   3.下完后把 redis.conf 放 data/redis/  里,进行解压
 
@@ -227,7 +227,7 @@ docker exec -it elasticsearch /bin/bash  //进入elasticsearch容器
 
 安装成功后使用postman创建索引
 
-![QQ截图20210812211857.png](博客介绍/14d857e8906621347816792dc695b4f5.png)
+![QQ截图20210812211857.png](README/14d857e8906621347816792dc695b4f5.png)
 
 JSON参数
 
@@ -259,7 +259,7 @@ JSON参数
 
 查看索引结构
 
-![QQ截图20210402215812.png](博客介绍/1617371955872.png)
+![QQ截图20210402215812.png](README/1617371955872.png)
 
 如图所示则创建成功
 
@@ -278,7 +278,7 @@ docker run --name maxwell --restart=always  -d  zendesk/maxwell bin/maxwell  --u
 
 打包成功后会在target目录下生成jar包
 
-![1](博客介绍/1.png)
+![1](README/1.png)
 
 #### 2.编写Dockerfile文件
 
@@ -325,17 +325,17 @@ echo "$SERVER_NAME容器创建完成"
 
 **注意：sh文件需要用notepad++转为Unix格式**
 
-![image-20220209200823842](博客介绍/image-20220209200823842.png)
+![image-20220209200823842](README/image-20220209200823842.png)
 
 #### 4.将文件传输到服务器
 
-![image-20220209200958800](博客介绍/image-20220209200958800.png)
+![image-20220209200958800](README/image-20220209200958800.png)
 
 将上述三个文件传输到/usr/local/docker下（手动创建文件夹）
 
 将文件拖动至空白区域即可
 
-![image-20220210122308030](博客介绍/image-20220210122308030.png)
+![image-20220210122308030](README/image-20220210122308030.png)
 
 #### 5.docker运行后端项目
 
@@ -350,15 +350,15 @@ sh ./blog-start.sh
 
 查看是否构建成功
 
-![image-20220210122026340](博客介绍/image-20220210122026340.png)
+![image-20220210122026340](README/image-20220210122026340.png)
 
-![image-20220210122056674](博客介绍/image-20220210122056674.png)
+![image-20220210122056674](README/image-20220210122056674.png)
 
 **注意：需要重新部署只需重新传jar包，执行sh脚本即可**
 
 查看是否部署成功
 
-![image-20220210135952255](博客介绍/image-20220210135952255.png)
+![image-20220210135952255](README/image-20220210135952255.png)
 
 #### 6.打包前端项目
 
@@ -366,17 +366,17 @@ sh ./blog-start.sh
 
 成功后生成dist文件夹
 
-![3](博客介绍/3.png)
+![3](README/3.png)
 
 将Vue打包项目传输到/usr/local/vue下，并且改名。
 
-![image-20220210151046359](博客介绍/image-20220210151046359.png)
+![image-20220210151046359](README/image-20220210151046359.png)
 
 #### 7.nginx配置(有域名选这个)
 
 **域名解析**
 
-![4](博客介绍/4.png)
+![4](README/4.png)
 
 在/usr/local/nginx下创建nginx.conf文件，格式如下
 
@@ -582,7 +582,7 @@ docker run --name nginx --restart=always -p 80:80 -p 81:81 -p 82:82 -p 83:83 -d 
 
 #### 9.运行测试
 
-![image-20220210160725341](博客介绍/image-20220210160725341.png)
+![image-20220210160725341](README/image-20220210160725341.png)
 
 #### 10.其他设置
 
