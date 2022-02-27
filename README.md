@@ -62,7 +62,7 @@ SQL文件位于根目录下的**blog.sql**，需要**MYSQL8.0**以上版本。
 
 **前端：** vue + vuex + vue-router + axios + vuetify + element + echarts
 
-**后端：** SpringBoot + Nginx + Docker + SpringSecurity + Swagger2 + MyBatisPlus + Mysql + Redis + elasticsearch + RabbitMQ + Websocket
+**后端：** SpringBoot + Nginx + Docker + SpringSecurity + Swagger2 + MyBatisPlus + Mysql + Redis + elasticsearch + RabbitMQ + Websocket+zabbix
 
 **其他：** 接入QQ，微博第三方登录，websocket
 
@@ -82,6 +82,7 @@ SQL文件位于根目录下的**blog.sql**，需要**MYSQL8.0**以上版本。
 - 支持用户留言、评论等功能。
 - 采用Markdown编辑器，方便编写文章。
 - 前端使用Element UI框架，并使用Echarts展示后台统计数据。
+- 通过zabbix监测网站健康状况。
 
 ## 博客运行环境
 
@@ -217,7 +218,7 @@ docker run --name="rabbit" --restart=always -p 15672:15672 -p 5672:5672  -d  rab
 
 ##### 安装elasticsearch （可切换为MYSQL搜索）
 
-```
+```shell
 docker pull elasticsearch:7.9.2 //下载elasticsearch镜像
 docker run -d --restart=always -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch:7.9.2 //启动elasticsearch
 docker exec -it elasticsearch /bin/bash  //进入elasticsearch容器
@@ -586,6 +587,137 @@ docker run --name nginx --restart=always -p 80:80 -p 81:81 -p 82:82 -p 83:83 -d 
 #### 10.其他设置
 
 进入后台管理 -> 系统管理 -> 网站管理 -> 其他设置，配置websocket地址，有域名则填ws://websocket域名，无域名则填ws://ip:82
+
+## 博客监控
+
+通过zabbix对博客使用的部分端口进行监控，检查网站的健康状况，如果发生异常，则通过邮件的方式对管理员进行通知。
+
+### 安装zabbix 服务端
+
+参考网址：https://www.zabbix.com/cn/download?zabbix=4.0&os_distribution=centos&os_version=7&db=mysql&ws=apache
+
+- 准备yum源，安装服务的组件
+
+```shell
+# rpm -Uvh https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-2.el7.noarch.rpm
+# yum clean all
+```
+
+- 安装Zabbix server，Web前端，agent
+
+```shell
+# yum install zabbix-server-mysql zabbix-web-mysql zabbix-agent -y
+```
+
+- 关闭selinux、防火墙
+
+```shell
+# setenforce 0
+# systemctl stop firewalld
+```
+
+- 创建初始数据库
+
+```shell
+# yum install mariadb-server -y
+# vim /etc/my.cnf	#这里修改mysql端口号以防和docker中的mysql端口发生冲突
+[mysqld]
+port=3606
+
+# systemctl start mariadb
+# mysql_secure_installation
+# systemctl enable mariadb
+
+# mysql -uroot -p
+password
+mysql> create database zabbix character set utf8 collate utf8_bin;
+mysql> create user zabbix@localhost identified by '000000';
+mysql> grant all privileges on zabbix.* to zabbix@localhost;
+mysql> quit;
+```
+
+- 导入初始架构和数据，系统将提示您输入新创建的密码。
+
+```shell
+# zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p zabbix
+```
+
+- 为Zabbix server配置数据库
+
+```shell
+# vim /etc/zabbix/zabbix_server.conf
+DBPassword=000000
+```
+
+- 编辑前端php配置
+
+```shell
+[root@server1 ~]# vim /etc/httpd/conf.d/zabbix.conf
+php_value max_execution_time 300
+php_value memory_limit 128M
+php_value post_max_size 16M
+php_value upload_max_filesize 2M
+php_value max_input_time 300
+php_value always_populate_raw_post_data -1
+php_value date.timezone Asia/Shanghai
+
+#修改httpd的端口否则会和nginx的80端口发生冲突
+[root@server1 ~]# vim /etc/httpd/conf/httpd.conf
+Listen 70
+ServerAdmin IP地址:70
+```
+
+- 启动服务
+
+```shell
+# systemctl restart zabbix-server zabbix-agent httpd
+# systemctl enable zabbix-server zabbix-agent httpd
+```
+
+- 至此完成zabbix 服务端的部署，可以通过http://IP:70/zabbix进行访问，初始化完成之后使用用户 Admin 密码zabbix
+
+**记得向阿里云中添加安全组**
+
+- 然后一路next
+
+![image-20220227223156730](README/image-20220227223156730.png)
+
+![image-20220227223330977](README/image-20220227223330977.png)
+
+![image-20220226111724893](README/image-20220226111724893.png)
+
+![image-20220226111745779](README/image-20220226111745779.png)
+
+- 添加需要监控的主机
+
+![image-20220227230108679](README/image-20220227230108679.png)
+
+- 客户端配置
+
+```shell
+[root@server2 ~]# yum install zabbix-agent -y
+[root@server2 ~]# vim /etc/zabbix/zabbix_agentd.conf	
+# 主要修改以下三个参数,改成server的ip地址
+Server=ip
+ServerActive=ip
+Hostname=myblog
+```
+
+- 端口监听
+
+参考：https://blog.csdn.net/Jason160918/article/details/116000372
+
+- 添加报警媒介
+
+密码为qq授权码
+
+![image-20220227233050018](README/image-20220227233050018.png)
+
+![image-20220227233540689](README/image-20220227233540689.png)
+
+- 配置发送异常报警邮件：配置-》动作-》点击启用Report problems to Zabbix administrators即可。
+
+![image-20220227233635748](README/image-20220227233635748.png)
 
 ## 总结
 
